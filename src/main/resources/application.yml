@@ -1,1 +1,11 @@
-
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/sb_23_11_27_dev
+    username: root
+    password: lldj123414
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # MySQL\uC774 \uC5C6\uB2E4\uBA74 \uC544\uB798\uC640 \uAC19\uC774 \uD558\uAE30
+#    url: jdbc:h2:./sb_23_11_27_dev;MODE=MySQL
+#    driverClassName: org.h2.Driver
+#    username: sa
+#    password:
