@@ -1,6 +1,7 @@
 package com.ll.sb231127.global.initData;
 
 import com.ll.sb231127.domain.article.article.entity.Article;
+import com.ll.sb231127.domain.article.article.repository.ArticleRepository;
 import com.ll.sb231127.domain.article.article.service.ArticleService;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.domain.member.member.service.MemberService;
@@ -16,7 +17,8 @@ public class NotProd {
     @Bean
     public ApplicationRunner initNotProdData(
             MemberService memberService,
-            ArticleService articleService
+            ArticleService articleService,
+            ArticleRepository articleRepository
     ) {
         return args -> {
             // 사용자 생성
@@ -32,6 +34,8 @@ public class NotProd {
             // 게시글에서 댓글 저장
             article1.addComment(member2, "댓글1");
             article1.addComment(member2, "댓글2");
+
+            articleRepository.save(article1);
         };
     }
 }
