@@ -35,16 +35,15 @@ public class ArticleServiceTest {
     @DisplayName("1번 글의 작성자의 username은 user1이다.")
     @Test
     void t2() {
-        // JPA 방식(객체)방식이 아니기 때문에 코드가 길다.
+        // JPA 방식(객체)방식으로 코드가 짧아진다.
+        // step 4, article 객체에 memberId 가 아니라 member 자체를 저장하는 방식으로 변경(즉 DB 방식이 아니라 객체 방식으로 변경)
 
         // 1번 글 찾기
         Article article = articleService.findById(1L).get();
-        // 1번 글에서 작성자 id 찾기
-        long authorId = article.getAuthorId();
-
-        Member member = memberService.findById(authorId).get();
+        // 1번 글에서 작성자 찾기
+        Member author = article.getAuthor();
 
         // 검증
-        Assertions.assertThat(member.getUsername()).isEqualTo("user1");
+        Assertions.assertThat(author.getUsername()).isEqualTo("user1");
     }
 }

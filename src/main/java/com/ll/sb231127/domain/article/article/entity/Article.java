@@ -1,9 +1,7 @@
 package com.ll.sb231127.domain.article.article.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.ll.sb231127.domain.member.member.entity.Member;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -18,7 +16,8 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    private long authorId; // 작가
+    @ManyToOne
+    private Member author; // 작가
     private String title; // 게시글 제목
     private String body; // 게시글 내용
 }
