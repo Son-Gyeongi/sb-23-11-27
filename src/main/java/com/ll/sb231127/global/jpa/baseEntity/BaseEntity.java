@@ -23,5 +23,6 @@ public class BaseEntity {
     private Long id;
     @CreatedDate // 해당 필드의 값은 엔티티가 생성될 때 자동으로 설정 (JPA Auditing)
     private LocalDateTime createDate;
+    @Setter
     private LocalDateTime modifyDate;
 }
