@@ -14,8 +14,9 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     @Transactional
-    public RsData<Article> write(String title, String body) {
+    public RsData<Article> write(long authorId, String title, String body) {
         Article article = Article.builder()
+                .authorId(authorId)
                 .title(title)
                 .body(body)
                 .build();

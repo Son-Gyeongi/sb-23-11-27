@@ -18,6 +18,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    private String title;
-    private String body;
+    private long authorId; // 작가
+    private String title; // 게시글 제목
+    private String body; // 게시글 내용
 }
