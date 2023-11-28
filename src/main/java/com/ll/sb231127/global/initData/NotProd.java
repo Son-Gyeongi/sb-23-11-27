@@ -29,7 +29,7 @@ public class NotProd {
     public ApplicationRunner initNotProdData() {
         return args -> {
             self.work1();
-            self.work1();
+            self.work2();
         };
     }
 
@@ -52,7 +52,7 @@ public class NotProd {
         Article article1 = articleService.findById(1L).get();
 
         // 게시글에서 댓글 저장
-        article1.addComment(member1, "댓글4");
-        article1.addComment(member1, "댓글4");
+        article1.addComment(member1, "댓글1");
+        article1.addComment(member1, "댓글2");
     }
 }
