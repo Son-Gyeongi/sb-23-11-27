@@ -39,8 +39,5 @@ public class ArticleService {
     public void modify(Article article, String title, String body) {
         article.setTitle(title);
         article.setBody(body);
-        article.setModifyDate(LocalDateTime.now());
-
-//        articleRepository.save(article); // update일 때 생략 가능, 더티 체킹
     }
 }

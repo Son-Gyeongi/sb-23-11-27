@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public class BaseEntity {
     private Long id;
     @CreatedDate // 해당 필드의 값은 엔티티가 생성될 때 자동으로 설정 (JPA Auditing)
     private LocalDateTime createDate;
+    @LastModifiedDate
     @Setter
     private LocalDateTime modifyDate;
 }
