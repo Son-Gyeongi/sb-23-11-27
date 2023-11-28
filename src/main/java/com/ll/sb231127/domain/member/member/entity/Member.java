@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
-
 @Entity
 @SuperBuilder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,9 +13,6 @@ import java.time.LocalDateTime;
 @Getter
 @ToString(callSuper = true)
 public class Member extends BaseEntity {
-    private LocalDateTime createDate;
-    private LocalDateTime modifyDate;
-
     private String username;
     private String password;
 }
