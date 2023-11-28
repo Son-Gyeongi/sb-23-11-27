@@ -1,5 +1,6 @@
 package com.ll.sb231127.global.initData;
 
+import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.article.article.service.ArticleService;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.domain.member.member.service.MemberService;
@@ -23,10 +24,14 @@ public class NotProd {
             Member member2 = memberService.join("user2", "1234").getData();
 
             // 게시글 생성
-            articleService.write(member1.getId(), "제목1", "내용1");
-            articleService.write(member1.getId(), "제목2", "내용2");
-            articleService.write(member2.getId(), "제목3", "내용3");
-            articleService.write(member2.getId(), "제목4", "내용4");
+            Article article1 = articleService.write(member1.getId(), "제목1", "내용1").getData();
+            Article article2 = articleService.write(member1.getId(), "제목2", "내용2").getData();
+            Article article3 = articleService.write(member2.getId(), "제목3", "내용3").getData();
+            Article article4 = articleService.write(member2.getId(), "제목4", "내용4").getData();
+
+            // 게시글에서 댓글 저장
+            article1.addComment(member2, "댓글1");
+            article1.addComment(member2, "댓글2");
         };
     }
 }
