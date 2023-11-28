@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,8 @@ public class MemberService {
     @Transactional
     public RsData<Member> join(String username, String password) {
         Member member = Member.builder()
+                .createDate(LocalDateTime.now())
+                .modifyDate(LocalDateTime.now())
                 .username(username)
                 .password(password)
                 .build();
