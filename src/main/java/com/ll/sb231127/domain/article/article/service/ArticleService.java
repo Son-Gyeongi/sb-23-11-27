@@ -34,4 +34,12 @@ public class ArticleService {
     public Optional<Article> findById(long id) {
         return articleRepository.findById(id);
     }
+
+    @Transactional
+    public void modify(Article article, String title, String body) {
+        article.setTitle(title);
+        article.setBody(body);
+
+        articleRepository.save(article);
+    }
 }
