@@ -21,9 +21,14 @@ public class NotProd {
             ArticleService articleService
     ) {
         return new ApplicationRunner() {
-            @Transactional
             @Override
             public void run(ApplicationArguments args) {
+                work1();
+                work2();
+            }
+
+            @Transactional
+            public void work1() {
                 // 사용자 생성
                 Member member1 = memberService.join("user1", "1234").getData();
                 Member member2 = memberService.join("user2", "1234").getData();
@@ -33,10 +38,16 @@ public class NotProd {
                 Article article2 = articleService.write(member1.getId(), "제목2", "내용2").getData();
                 Article article3 = articleService.write(member2.getId(), "제목3", "내용3").getData();
                 Article article4 = articleService.write(member2.getId(), "제목4", "내용4").getData();
+            }
+
+            @Transactional
+            public void work2() {
+                Member member1 = memberService.findById(1L).get();
+                Article article1 = articleService.findById(1L).get();
 
                 // 게시글에서 댓글 저장
-                article1.addComment(member2, "댓글1");
-                article1.addComment(member2, "댓글2");
+                article1.addComment(member1, "댓글4");
+                article1.addComment(member1, "댓글4");
             }
         };
     }
