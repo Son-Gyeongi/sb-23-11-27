@@ -2,7 +2,6 @@ package com.ll.sb231127.domain.article.article.service;
 
 import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.article.article.repository.ArticleRepository;
-import com.ll.sb231127.domain.article.articleComment.entity.ArticleComment;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.global.rsData.RsData;
 import lombok.RequiredArgsConstructor;
@@ -40,10 +39,5 @@ public class ArticleService {
     public void modify(Article article, String title, String body) {
         article.setTitle(title);
         article.setBody(body);
-    }
-
-    @Transactional
-    public void modifyComment(ArticleComment comment, String body) {
-        comment.setBody(body);
     }
 }

@@ -1,14 +1,12 @@
 package com.ll.sb231127.domain.article.article.entity;
 
-import com.ll.sb231127.domain.article.articleComment.entity.ArticleComment;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.global.jpa.baseEntity.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity // 해당 클래스가 엔티티임을 의미
 @SuperBuilder //  빌더 패턴을 자동으로 생성해주는 기능, 부모 클래스인 BaseEntity에서도 빌더 패턴을 사용 가능
@@ -22,22 +20,4 @@ public class Article extends BaseEntity {
     private Member author; // 작가
     private String title; // 게시글 제목
     private String body; // 게시글 내용
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true) // 필드와 연결이 끊어진 고아 데이터
-    @Builder.Default // builder 할 때 comments 필드는 null이 아닌 new ArrayList<>();로 고정
-    private List<ArticleComment> comments = new ArrayList<>();
-
-    // Article에서 댓글 저장
-    public void addComment(Member commentAuthor, String commentBody) {
-        ArticleComment comment = ArticleComment.builder()
-                .article(this)
-                .author(commentAuthor)
-                .body(commentBody)
-                .build();
-
-        comments.add(comment);
-    }
-
-    public void removeComment(ArticleComment comment) {
-        comments.remove(comment);
-    }
 }
