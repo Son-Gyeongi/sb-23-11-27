@@ -1,6 +1,7 @@
 package com.ll.sb231127.domain.article.article.service;
 
 import com.ll.sb231127.domain.article.article.entity.Article;
+import com.ll.sb231127.domain.article.articleComment.entity.ArticleComment;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.domain.member.member.service.MemberService;
 import com.ll.sb231127.global.rsData.RsData;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,5 +83,16 @@ public class ArticleServiceTest {
                     articleService.modifyComment(comment, comment.getBody() + " 수정");
                 }
         );
+    }
+
+    @DisplayName("1번 글의 댓글 중 마지막 것을 삭제한다.")
+    @Test
+    @Rollback(value = false)
+    void t6() {
+        Article article = articleService.findById(1L).get();
+
+        ArticleComment lastComment = article.getComments().getLast();
+
+        article.removeComment(lastComment);
     }
 }

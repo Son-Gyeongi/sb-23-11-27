@@ -22,7 +22,7 @@ public class Article extends BaseEntity {
     private Member author; // 작가
     private String title; // 게시글 제목
     private String body; // 게시글 내용
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true) // 필드와 연결이 끊어진 고아 데이터
     @Builder.Default // builder 할 때 comments 필드는 null이 아닌 new ArrayList<>();로 고정
     private List<ArticleComment> comments = new ArrayList<>();
 
@@ -35,5 +35,9 @@ public class Article extends BaseEntity {
                 .build();
 
         comments.add(comment);
+    }
+
+    public void removeComment(ArticleComment comment) {
+        comments.remove(comment);
     }
 }
