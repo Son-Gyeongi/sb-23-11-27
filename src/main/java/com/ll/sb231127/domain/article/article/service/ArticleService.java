@@ -20,7 +20,6 @@ public class ArticleService {
     @Transactional
     public RsData<Article> write(long authorId, String title, String body) {
         Article article = Article.builder()
-                .createDate(LocalDateTime.now())
                 .modifyDate(LocalDateTime.now())
                 .author(Member.builder().id(authorId).build())
                 .title(title)

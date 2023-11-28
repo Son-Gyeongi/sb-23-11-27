@@ -19,7 +19,6 @@ public class MemberService {
     @Transactional
     public RsData<Member> join(String username, String password) {
         Member member = Member.builder()
-                .createDate(LocalDateTime.now())
                 .modifyDate(LocalDateTime.now())
                 .username(username)
                 .password(password)
