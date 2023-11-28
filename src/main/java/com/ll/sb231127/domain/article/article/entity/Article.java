@@ -16,7 +16,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // @ManyToOne(fetch = LAZY) 를 통해서 데이터를 필요한 만큼만 FETCH
     private Member author; // 작가
     private String title; // 게시글 제목
     private String body; // 게시글 내용

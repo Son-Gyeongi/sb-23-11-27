@@ -4,7 +4,6 @@ import com.ll.sb231127.domain.article.article.entity.Article;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.domain.member.member.service.MemberService;
 import com.ll.sb231127.global.rsData.RsData;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +31,21 @@ public class ArticleServiceTest {
         assertThat(article.getId()).isGreaterThan(0L);
     }
 
-    @DisplayName("1번 글의 작성자의 username은 user1이다.")
+    @DisplayName("1번 글을 가져온다.")
     @Test
     void t2() {
-        // JPA 방식(객체)방식으로 코드가 짧아진다.
-        // step 4, article 객체에 memberId 가 아니라 member 자체를 저장하는 방식으로 변경(즉 DB 방식이 아니라 객체 방식으로 변경)
+        // 1번 글 찾기
+        Article article = articleService.findById(1L).get();
+
+        // 검증
+        assertThat(article.getTitle()).isEqualTo("제목1");
+    }
+
+    @DisplayName("1번 글의 작성자의 username은 user1이다.")
+    @Test
+    void t3() {
+        // @ManyToOne(fetch = LAZY) 를 통해서 데이터를 필요한 만큼만 FETCH.
+        // 추가로 필요한 데이터가 있으면 자동 FETCH
 
         // 1번 글 찾기
         Article article = articleService.findById(1L).get();
@@ -44,6 +53,6 @@ public class ArticleServiceTest {
         Member author = article.getAuthor();
 
         // 검증
-        Assertions.assertThat(author.getUsername()).isEqualTo("user1");
+        assertThat(author.getUsername()).isEqualTo("user1");
     }
 }
