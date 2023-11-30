@@ -56,4 +56,11 @@ public class Article extends BaseEntity {
 
         tags.add(tag);
     }
+
+    // 여러 개의 태그가 매개변수로 들어온다면
+    public void addTag(String... tagContents) {
+        for (String tagContent : tagContents) {
+            addTag(tagContent);
+        }
+    }
 }
