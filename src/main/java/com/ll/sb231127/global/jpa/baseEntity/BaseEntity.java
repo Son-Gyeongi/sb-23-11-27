@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @SuperBuilder // 부모 클래스인 BaseEntity에서도 빌더 패턴을 사용할 수 있다.
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 매개변수가 없는 protected 접근 제한자를 가지는 기본 생성자를 자동으로 생성
 @Getter // 필드에 대한 getter 메서드가 자동으로 생성
-@EqualsAndHashCode // equals()와 hashCode() 메서드를 자동으로 생성
+@EqualsAndHashCode(onlyExplicitlyIncluded = true) // equals()와 hashCode() 메서드를 자동으로 생성
 @ToString // toString() 메서드를 자동으로 생성
 public class BaseEntity {
     @Id // 엔티티의 식별자(primary key)로 지정
