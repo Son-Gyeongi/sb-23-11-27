@@ -17,6 +17,6 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 public class ArticleTag extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
-    private Article article;
+    private Article article; // 실제로 DB에 저장되는 건 article_id 이다.
     private String content;
 }

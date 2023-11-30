@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @ToString(callSuper = true) // callSuper = true를 설정하여 부모 클래스인 BaseEntity의 toString() 메서드도 포함
 public class Article extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY) // @ManyToOne(fetch = LAZY) 를 통해서 데이터를 필요한 만큼만 FETCH
-    private Member author; // 작가
+    private Member author; // 작가 / 실제로 DB에 저장되는 건 author_id 이다.
     private String title; // 게시글 제목
     private String body; // 게시글 내용
 
