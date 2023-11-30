@@ -10,6 +10,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity // 해당 클래스가 엔티티임을 의미
 @SuperBuilder //  빌더 패턴을 자동으로 생성해주는 기능, 부모 클래스인 BaseEntity에서도 빌더 패턴을 사용 가능
@@ -62,5 +63,15 @@ public class Article extends BaseEntity {
         for (String tagContent : tagContents) {
             addTag(tagContent);
         }
+    }
+
+    // 태그만 가져오기
+    public String getTagsStr() {
+        String tagsStr = tags
+                .stream()
+                .map(ArticleTag::getContent)
+                .collect(Collectors.joining(" #"));
+
+        return "#" + tagsStr;
     }
 }

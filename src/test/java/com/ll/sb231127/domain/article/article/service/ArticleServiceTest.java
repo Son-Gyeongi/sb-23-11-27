@@ -114,4 +114,14 @@ public class ArticleServiceTest {
             System.out.println("댓글 수: " + article.getComments().size());
         });
     }
+
+    @DisplayName("1번 게시물의 태그(String)를 반환한다.")
+    @Test
+    void t9() {
+        Article article1 = articleService.findById(1L).get();
+
+        String tagsStr = article1.getTagsStr();
+
+        assertThat(tagsStr).isEqualTo("#자바 #백엔드");
+    }
 }
