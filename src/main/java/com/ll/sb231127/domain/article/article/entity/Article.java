@@ -1,6 +1,7 @@
 package com.ll.sb231127.domain.article.article.entity;
 
 import com.ll.sb231127.domain.article.articleComment.entity.ArticleComment;
+import com.ll.sb231127.domain.article.articleTag.entity.ArticleTag;
 import com.ll.sb231127.domain.member.member.entity.Member;
 import com.ll.sb231127.global.jpa.baseEntity.BaseEntity;
 import jakarta.persistence.*;
@@ -22,9 +23,14 @@ public class Article extends BaseEntity {
     private Member author; // 작가
     private String title; // 게시글 제목
     private String body; // 게시글 내용
+
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true) // 필드와 연결이 끊어진 고아 데이터
     @Builder.Default // builder 할 때 comments 필드는 null이 아닌 new ArrayList<>();로 고정
     private List<ArticleComment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true) // @OneToMany는 기볹적으로 LAZY타입
+    @Builder.Default // build할 때 값이 없는 필드의 경우 null이 들어오는데 해당 어노테이션을 사용하면 null이 아닌 주어진 값을 그대로 쓴다.
+    private List<ArticleTag> tags = new ArrayList<>();
 
     // Article에서 댓글 저장
     public void addComment(Member commentAuthor, String commentBody) {
@@ -39,5 +45,15 @@ public class Article extends BaseEntity {
 
     public void removeComment(ArticleComment comment) {
         comments.remove(comment);
+    }
+
+    // Article에서 태그 저장
+    public void addTag(String tagContent) {
+        ArticleTag tag = ArticleTag.builder()
+                .article(this)
+                .content(tagContent)
+                .build();
+
+        tags.add(tag);
     }
 }
