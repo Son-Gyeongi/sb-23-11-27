@@ -48,11 +48,17 @@ public class NotProd {
 
     @Transactional
     public void work2() {
+        // 사용자 조회
         Member member1 = memberService.findById(1L).get();
+        // 게시글 조회
         Article article1 = articleService.findById(1L).get();
+        Article article2 = articleService.findById(2L).get();
 
         // 게시글에서 댓글 저장
         article1.addComment(member1, "댓글1");
         article1.addComment(member1, "댓글2");
+        article2.addComment(member1, "댓글3");
+        article2.addComment(member1, "댓글4");
+        article2.addComment(member1, "댓글5");
     }
 }

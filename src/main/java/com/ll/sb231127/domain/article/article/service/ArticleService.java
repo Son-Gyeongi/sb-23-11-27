@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,5 +40,10 @@ public class ArticleService {
     public void modify(Article article, String title, String body) {
         article.setTitle(title);
         article.setBody(body);
+    }
+
+    // 최근 작성한 게시글부터 모두 출력
+    public List<Article> findAll() {
+        return articleRepository.findByOrderByIdDesc();
     }
 }
