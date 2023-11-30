@@ -27,10 +27,12 @@ public class Article extends BaseEntity {
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true) // 필드와 연결이 끊어진 고아 데이터
     @Builder.Default // builder 할 때 comments 필드는 null이 아닌 new ArrayList<>();로 고정
+    @ToString.Exclude // OneToMany 필드들에 @ToString.Exclude 추가하여 재귀적인 무한호출 방지
     private List<ArticleComment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true) // @OneToMany는 기볹적으로 LAZY타입
     @Builder.Default // build할 때 값이 없는 필드의 경우 null이 들어오는데 해당 어노테이션을 사용하면 null이 아닌 주어진 값을 그대로 쓴다.
+    @ToString.Exclude
     private List<ArticleTag> tags = new ArrayList<>();
 
     // Article에서 댓글 저장
