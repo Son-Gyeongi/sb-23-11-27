@@ -14,10 +14,10 @@ public class ArticleTagService {
 
     // 작성자가 적은 태그 모두 출력
     public List<ArticleTag> findByAuthorId(long authorId) {
-        return articleTagRepository.findByArticle_authorId(authorId);
+        return articleTagRepository.findByAuthorId(authorId);
     }
 
     public List<ArticleTag> findByAuthorUsername(String username) {
-        return articleTagRepository.findByArticle_author_username(username);
+        return articleTagRepository.findByAuthor_username(username);
     }
 }
