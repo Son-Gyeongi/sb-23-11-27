@@ -32,7 +32,7 @@ public class ArticleController {
                        @RequestParam(defaultValue = "0") int page, Model model) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("id"));
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by(sorts));
 
         // kwTypes를 맵 형태로 바꿔서, 타임리프의 폼 안에서 쉽게 쓸 수 있도록 한다.
         Map<String, Boolean> kwTypesMap = kwTypes
