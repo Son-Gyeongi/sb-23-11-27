@@ -28,8 +28,8 @@ public class ArticleController {
         sorts.add(Sort.Order.desc("id"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
-        Page<Article> itemPage = articleService.search(pageable);
-        model.addAttribute("itemPage", itemPage);
+        Page<Article> itemsPage = articleService.search(pageable);
+        model.addAttribute("itemsPage", itemsPage);
 
         return "article/list";
     }

@@ -75,6 +75,10 @@ public class Article extends BaseEntity {
                 .map(ArticleTag::getContent)
                 .collect(Collectors.joining(" #"));
 
+        if (tagsStr.isBlank()) {
+            return "";
+        }
+
         return "#" + tagsStr;
     }
 }
