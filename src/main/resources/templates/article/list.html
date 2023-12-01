@@ -88,26 +88,36 @@
      th:with="queryStrBase = ${@rq.getCurrentQueryStringWithoutParam('page')}, pageArmSize = 3"
 >
 
+    <a th:href="|?${queryStrBase}&page=1|"
+       th:classappend="${page == 1} ? 'active'"
+       th:text="1"
+    >
+    </a>
+
     <a
-            th:href="|?${queryStrBase}&page=${itemsPage.number + 1 - pageArmSize - 1}|"
-            th:if="${itemsPage.number + 1 - pageArmSize > 2}"
+            th:href="|?${queryStrBase}&page=${page - pageArmSize - 1}|"
+            th:if="${page - pageArmSize > 2}"
     >...</a>
 
     <a
-            th:each="num : ${#numbers.sequence(1, itemsPage.totalPages)}"
-            th:if="${num >= itemsPage.number + 1 - pageArmSize and num <= itemsPage.number + 1 + pageArmSize}"
+            th:each="num : ${#numbers.sequence(2, itemsPage.totalPages - 1)}"
+            th:if="${num >= page - pageArmSize and num <= page + pageArmSize}"
             th:href="|?${queryStrBase}&page=${num}|"
             th:text="${num}"
-            th:classappend="${num == itemsPage.number + 1 ? 'active' : ''}"
+            th:classappend="${num == page ? 'active' : ''}"
     >
 
     </a>
 
     <a
-            th:href="|?${queryStrBase}&page=${itemsPage.number + 1 + pageArmSize + 1}|"
-            th:if="${itemsPage.number + 1 + pageArmSize < itemsPage.totalPages - 1}"
+            th:href="|?${queryStrBase}&page=${page + pageArmSize + 1}|"
+            th:if="${page + pageArmSize < itemsPage.totalPages - 1}"
     >...</a>
 
+    <a th:href="|?${queryStrBase}&page=${itemsPage.totalPages}|"
+       th:classappend="${page == itemsPage.totalPages} ? 'active'"
+       th:text="${itemsPage.totalPages}"
+    ></a>
 </div>
 
 <hr>
