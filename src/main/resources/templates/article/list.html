@@ -76,14 +76,28 @@
 
 <hr>
 
-<!--    itemsPage.totalPages 전체 페이지 개수 / 0부터 시작-->
-<div
-        th:if="${itemsPage.totalPages > 0}"
-        style="display:flex; gap:10px;"
-        th:with="queryStrBase = ${@rq.getCurrentQueryStringWithoutParam('page')}"
+<style>
+    .pagination .active {
+        color: red;
+    }
+</style>
+
+<div class="pagination"
+     th:if="${itemsPage.totalPages > 0}"
+     style="display:flex; gap:10px;"
+     th:with="queryStrBase = ${@rq.getCurrentQueryStringWithoutParam('page')}, pageArmSize = 3"
 >
-    <a th:each="num : ${#numbers.sequence(1, itemsPage.totalPages)}" th:href="|?${queryStrBase}&page=${num}|" th:text="${num}"></a>
+    <a
+            th:each="num : ${#numbers.sequence(1, itemsPage.totalPages)}"
+            th:if="${num >= itemsPage.number + 1 - pageArmSize and num <= itemsPage.number + 1 + pageArmSize}"
+            th:href="|?${queryStrBase}&page=${num}|"
+            th:text="${num}"
+            th:classappend="${num == itemsPage.number + 1 ? 'active' : ''}"
+    >
+
+    </a>
 </div>
+
 <hr>
 
 <div>
