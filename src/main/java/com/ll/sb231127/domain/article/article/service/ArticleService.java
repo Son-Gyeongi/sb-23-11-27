@@ -50,12 +50,16 @@ public class ArticleService {
     }
 
     public Page<Article> search(List<String> kwTypes, String kw, Pageable pageable) {
-        if (kwTypes.contains("title") && kwTypes.contains("body")) {
+        if (kwTypes.contains("authorUsername") && kwTypes.contains("title") && kwTypes.contains("body")) {
+            return articleRepository.findByAuthor_usernameContainingOrTitleContainingOrBodyContaining(kw, kw, kw, pageable);
+        } else if (kwTypes.contains("title") && kwTypes.contains("body")) {
             return articleRepository.findByTitleContainingOrBodyContaining(kw, kw, pageable);
         } else if (kwTypes.contains("title")) {
             return articleRepository.findByTitleContaining(kw, pageable);
         } else if (kwTypes.contains("body")) {
             return articleRepository.findByBodyContaining(kw, pageable);
+        } else if (kwTypes.contains("authorUsername")) {
+            return articleRepository.findByAuthor_usernameContaining(kw, pageable);
         }
 
         return articleRepository.findAll(pageable);

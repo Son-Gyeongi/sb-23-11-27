@@ -14,4 +14,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     Page<Article> findByTitleContainingOrBodyContaining(String kw, String kw_, Pageable pageable);
     Page<Article> findByTitleContaining(String kw, Pageable pageable);
     Page<Article> findByBodyContaining(String kw, Pageable pageable);
+    // 순수 JPA 메서드로 검색구현, 구현한 조건들 : 작성자명 or 제목 or 내용
+    Page<Article> findByAuthor_usernameContainingOrTitleContainingOrBodyContaining(String kw, String kw_, String kw__, Pageable pageable);
+    Page<Article> findByAuthor_usernameContaining(String kw, Pageable pageable);
 }
