@@ -20,7 +20,7 @@
         <label><input type="checkbox" name="kwType" value="commentAuthorUsername"><span>댓글 작성자</span></label>
         <label><input type="checkbox" name="kwType" value="commentBody"><span>댓글 내용</span></label>
     </div>
-    <input type="search" name="kw" placeholder="검색어">
+    <input type="search" name="kw" placeholder="검색어" th:value="${param.kw}">
     <input type="submit" value="검색">
 </form>
 
