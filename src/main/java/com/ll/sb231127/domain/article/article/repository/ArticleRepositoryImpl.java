@@ -27,41 +27,43 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
     public Page<Article> search(List<String> kwTypes, String kw, Pageable pageable) {
         BooleanBuilder builder = new BooleanBuilder();
 
-        // 기존의 조건을 리스트에 담습니다.
-        List<BooleanExpression> conditions = new ArrayList<>();
+        if (!kw.isBlank()) {
+            // 기존의 조건을 리스트에 담습니다.
+            List<BooleanExpression> conditions = new ArrayList<>();
 
-        if (kwTypes.contains("authorUsername")) {
-            conditions.add(article.author.username.containsIgnoreCase(kw));
-        }
+            if (kwTypes.contains("authorUsername")) {
+                conditions.add(article.author.username.containsIgnoreCase(kw));
+            }
 
-        if (kwTypes.contains("title")) {
-            conditions.add(article.title.containsIgnoreCase(kw));
-        }
+            if (kwTypes.contains("title")) {
+                conditions.add(article.title.containsIgnoreCase(kw));
+            }
 
-        if (kwTypes.contains("body")) {
-            conditions.add(article.body.containsIgnoreCase(kw));
-        }
+            if (kwTypes.contains("body")) {
+                conditions.add(article.body.containsIgnoreCase(kw));
+            }
 
-        if (kwTypes.contains("tagContent")) {
-            conditions.add(article.tags.any().content.eq(kw));
-        }
+            if (kwTypes.contains("tagContent")) {
+                conditions.add(article.tags.any().content.eq(kw));
+            }
 
-        if (kwTypes.contains("commentAuthorUsername")) {
-            conditions.add(article.comments.any().author.username.containsIgnoreCase(kw));
-        }
+            if (kwTypes.contains("commentAuthorUsername")) {
+                conditions.add(article.comments.any().author.username.containsIgnoreCase(kw));
+            }
 
-        if (kwTypes.contains("commentBody")) {
-            conditions.add(article.comments.any().body.containsIgnoreCase(kw));
-        }
+            if (kwTypes.contains("commentBody")) {
+                conditions.add(article.comments.any().body.containsIgnoreCase(kw));
+            }
 
-        // 조건 리스트를 or 조건으로 결합합니다.
-        BooleanExpression combinedCondition = conditions.stream()
-                .reduce(BooleanExpression::or)
-                .orElse(null);
+            // 조건 리스트를 or 조건으로 결합합니다.
+            BooleanExpression combinedCondition = conditions.stream()
+                    .reduce(BooleanExpression::or)
+                    .orElse(null);
 
-        // 최종적으로 생성된 조건을 쿼리에 적용합니다.
-        if (combinedCondition != null) {
-            builder.and(combinedCondition);
+            // 최종적으로 생성된 조건을 쿼리에 적용합니다.
+            if (combinedCondition != null) {
+                builder.and(combinedCondition);
+            }
         }
 
         JPAQuery<Article> articlesQuery = jpaQueryFactory
