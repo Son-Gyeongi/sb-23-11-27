@@ -33,6 +33,7 @@ public class ArticleController {
         sorts.add(Sort.Order.desc("id"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
+        // kwTypes를 맵 형태로 바꿔서, 타임리프의 폼 안에서 쉽게 쓸 수 있도록 한다.
         Map<String, Boolean> kwTypesMap = kwTypes
                 .stream()
                 .collect(Collectors.toMap(
@@ -40,10 +41,9 @@ public class ArticleController {
                         kwType -> true
                 ));
 
-        log.debug("kwTypesMap: {}", kwTypesMap);
-
         Page<Article> itemsPage = articleService.search(pageable);
         model.addAttribute("itemsPage", itemsPage);
+        model.addAttribute("kwTypesMap", kwTypesMap);
 
         return "article/list";
     }
