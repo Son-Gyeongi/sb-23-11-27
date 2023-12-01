@@ -87,6 +87,12 @@
      style="display:flex; gap:10px;"
      th:with="queryStrBase = ${@rq.getCurrentQueryStringWithoutParam('page')}, pageArmSize = 3"
 >
+
+    <a
+            th:href="|?${queryStrBase}&page=${itemsPage.number + 1 - pageArmSize - 1}|"
+            th:if="${itemsPage.number + 1 - pageArmSize > 2}"
+    >...</a>
+
     <a
             th:each="num : ${#numbers.sequence(1, itemsPage.totalPages)}"
             th:if="${num >= itemsPage.number + 1 - pageArmSize and num <= itemsPage.number + 1 + pageArmSize}"
@@ -96,6 +102,12 @@
     >
 
     </a>
+
+    <a
+            th:href="|?${queryStrBase}&page=${itemsPage.number + 1 + pageArmSize + 1}|"
+            th:if="${itemsPage.number + 1 + pageArmSize < itemsPage.totalPages - 1}"
+    >...</a>
+
 </div>
 
 <hr>
