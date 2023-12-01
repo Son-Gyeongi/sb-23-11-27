@@ -11,6 +11,19 @@
     }
 </style>
 
+<form>
+    <div style="display:flex; gap:10px;">
+        <label><input type="checkbox" name="kwType" value="authorUsername"><span>작성자</span></label>
+        <label><input type="checkbox" name="kwType" value="title" checked><span>제목</span></label>
+        <label><input type="checkbox" name="kwType" value="body" checked><span>내용</span></label>
+        <label><input type="checkbox" name="kwType" value="tagContent"><span>태그</span></label>
+        <label><input type="checkbox" name="kwType" value="commentAuthorUsername"><span>댓글 작성자</span></label>
+        <label><input type="checkbox" name="kwType" value="commentBody"><span>댓글 내용</span></label>
+    </div>
+    <input type="search" name="kw" placeholder="검색어">
+    <input type="submit" value="검색">
+</form>
+
 <div>
     <table class="table-1">
         <thead>
