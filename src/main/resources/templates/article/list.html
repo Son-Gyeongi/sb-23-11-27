@@ -11,13 +11,37 @@
     }
 </style>
 
-<form>
+<script>
+    function submitSearchForm(form) {
+        const kwTypeCheckboxes = form.querySelectorAll("input[name='kwType']");
+
+        const isChecked = Array.from(kwTypeCheckboxes).some(checkbox => checkbox.checked);
+
+        if (!isChecked) {
+            alert("최소한 하나의 검색 유형을 선택해야 합니다.");
+
+            if (kwTypeCheckboxes.length > 0) {
+                kwTypeCheckboxes[0].focus();
+            }
+
+            return;
+        }
+
+        form.submit();
+    }
+</script>
+
+<form onsubmit="submitSearchForm(this); return false;">
     <div style="display:flex; gap:10px;">
         <label><input type="checkbox" name="kwType" value="authorUsername" th:checked="${kwTypesMap['authorUsername']}"><span>작성자</span></label>
-        <label><input type="checkbox" name="kwType" value="title" th:checked="${kwTypesMap['title']}"><span>제목</span></label>
-        <label><input type="checkbox" name="kwType" value="body" th:checked="${kwTypesMap['body']}"><span>내용</span></label>
-        <label><input type="checkbox" name="kwType" value="tagContent" th:checked="${kwTypesMap['tagContent']}"><span>태그</span></label>
-        <label><input type="checkbox" name="kwType" value="commentAuthorUsername" th:checked="${kwTypesMap['commentAuthorUsername']}"><span>댓글 작성자</span></label>
+        <label><input type="checkbox" name="kwType" value="title"
+                      th:checked="${kwTypesMap['title']}"><span>제목</span></label>
+        <label><input type="checkbox" name="kwType" value="body"
+                      th:checked="${kwTypesMap['body']}"><span>내용</span></label>
+        <label><input type="checkbox" name="kwType" value="tagContent"
+                      th:checked="${kwTypesMap['tagContent']}"><span>태그</span></label>
+        <label><input type="checkbox" name="kwType" value="commentAuthorUsername"
+                      th:checked="${kwTypesMap['commentAuthorUsername']}"><span>댓글 작성자</span></label>
         <label><input type="checkbox" name="kwType" value="commentBody" th:checked="${kwTypesMap['commentBody']}"><span>댓글 내용</span></label>
     </div>
     <input type="search" name="kw" placeholder="검색어" th:value="${param.kw}">
@@ -53,7 +77,7 @@
 <hr>
 
 <div style="display:flex; gap:10px;">
-<!--    itemsPage.totalPages 전체 페이지 개수 / 0부터 시작해서 -1 한다.-->
+    <!--    itemsPage.totalPages 전체 페이지 개수 / 0부터 시작해서 -1 한다.-->
     <a th:each="num : ${#numbers.sequence(0, itemsPage.totalPages - 1)}"
        th:href="|?page=${num}|" th:text="${num}"></a>
 </div>
