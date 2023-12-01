@@ -31,6 +31,16 @@
     }
 </script>
 
+<hr>
+
+<th:block th:with="queryStrBase = ${@rq.getCurrentQueryStringWithoutParam('page')}">
+    <th:block th:replace="global/fragments/pagination :: pagination(${itemsPage}, ${queryStrBase}, 3)">
+
+    </th:block>
+</th:block>
+
+<hr>
+
 <form onsubmit="submitSearchForm(this); return false;">
     <div style="display:flex; gap:10px;">
         <label><input type="checkbox" name="kwType" value="authorUsername" th:checked="${kwTypesMap['authorUsername']}"><span>작성자</span></label>
@@ -76,9 +86,11 @@
 
 <hr>
 
-<div
-        th:replace="global/fragments/pagination :: pagination(${itemsPage}, ${@rq.getCurrentQueryStringWithoutParam('page')}, 3)"
-></div>
+<th:block th:with="queryStrBase = ${@rq.getCurrentQueryStringWithoutParam('page')}">
+    <th:block th:replace="global/fragments/pagination :: pagination(${itemsPage}, ${queryStrBase}, 3)">
+
+    </th:block>
+</th:block>
 
 <hr>
 
