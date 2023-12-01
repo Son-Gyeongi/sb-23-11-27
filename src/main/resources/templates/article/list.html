@@ -39,14 +39,11 @@
 
 <hr>
 
-<div>
-    <a href="?page=0">0</a>
-    <a href="?page=1">1</a>
-    <a href="?page=2">2</a>
-    <a href="?page=3">3</a>
-    <a href="?page=4">4</a>
+<div style="display:flex; gap:10px;">
+<!--    itemsPage.totalPages 전체 페이지 개수 / 0부터 시작해서 -1 한다.-->
+    <a th:each="num : ${#numbers.sequence(0, itemsPage.totalPages - 1)}"
+       th:href="|?page=${num}|" th:text="${num}"></a>
 </div>
-
 <hr>
 
 <div>
