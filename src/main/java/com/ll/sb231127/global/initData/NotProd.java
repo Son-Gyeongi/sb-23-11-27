@@ -22,15 +22,15 @@ public class NotProd {
     // 개발/테스트 샘플 데이터
 
     @Autowired
-    @Lazy // 본인이 본인 의존성 얻을려다가 뻗는다.
-    private NotProd self; // 자신에 대한 객체, 많이 사용하는 패턴
+    @Lazy // LAZY 안하면 본인이 본인 의존성 얻을려다가 뻗는다.
+    private NotProd self; // 자신에 대한 객체 호출, 많이 사용하는 패턴
     private final MemberService memberService;
     private final ArticleService articleService;
 
     @Bean
     public ApplicationRunner initNotProdData() {
         return args -> {
-            self.work1();
+            self.work1(); // self 외부에 있는 리모컨을 호출하는 거라서 @Transactional 작동 된다.
         };
     }
 
