@@ -90,6 +90,10 @@ public class ArticleServiceTest {
         Member member1 = memberService.findById(1L).get();
         Article article2 = articleService.findById(2L).get();
 
+        /*
+        양방향 관계를 통해서 추가
+        댓글을 게시물을 통해서 DB에 추가
+         */
         article2.addComment(member1, "댓글3");
     }
 
@@ -98,6 +102,10 @@ public class ArticleServiceTest {
     void t6() {
         Article article1 = articleService.findById(1L).get();
 
+        /*
+        양방향 관계를 통해서 수정
+        댓글을 게시물을 통해서 DB에 수정
+         */
         article1.getComments().getLast().setBody("수정된 댓글");
     }
 
@@ -108,6 +116,10 @@ public class ArticleServiceTest {
 
         ArticleComment lastComment = article1.getComments().getLast();
 
+        /*
+        양방향 관계를 통해서 삭제
+        댓글을 게시물을 통해서 DB에 삭제
+         */
         article1.removeComment(lastComment);
     }
 
