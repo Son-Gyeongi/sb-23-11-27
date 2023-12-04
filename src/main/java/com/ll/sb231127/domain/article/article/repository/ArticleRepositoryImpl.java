@@ -28,6 +28,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 
     @Override
     public Page<Article> search(List<String> kwTypes, String kw, Pageable pageable) {
+        // where 조건 입력
         BooleanBuilder builder = new BooleanBuilder();
 
         QMember author = new QMember("articleAuthor");
@@ -40,6 +41,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
             List<BooleanExpression> conditions = new ArrayList<>();
 
             if (kwTypes.contains("authorUsername")) {
+                // where 조건 입력
                 conditions.add(author.username.containsIgnoreCase(kw));
             }
 
@@ -83,6 +85,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .leftJoin(article.tags, articleTag)
                 .where(builder);
 
+        // 정렬 조건
         for (Sort.Order o : pageable.getSort()) {
             PathBuilder pathBuilder = new PathBuilder(article.getType(), article.getMetadata());
             articlesQuery.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
