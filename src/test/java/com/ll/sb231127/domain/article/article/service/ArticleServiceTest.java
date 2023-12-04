@@ -75,6 +75,7 @@ public class ArticleServiceTest {
 
         Ut.thread.sleep(1000); // 1초 sleep
 
+        // 모든 건 articleService 에게 맡겨야 한다.
         articleService.modify(article, "수정된 제목!!", "수정된 내용!!");
 
         Article article_ = articleService.findById(1L).get();
