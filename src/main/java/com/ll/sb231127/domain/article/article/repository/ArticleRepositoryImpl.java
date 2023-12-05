@@ -28,20 +28,41 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 
     @Override
     public Page<Article> search(List<String> kwTypes, String kw, Pageable pageable) {
-        // where 조건 입력
+        /*
+        # 한 페이지에 게시물 `10`개까지 보여줄 수 있고, 현재 `2` 페이지 이고, 검색어가 `1` 이라고 가정
+        SELECT DISTINCT A.*
+        FROM article AS A
+        LEFT JOIN `member` AS AM
+        ON A.author_id = AM.id
+        LEFT JOIN article_comment AS AC
+        ON A.id = AC.article_id
+        LEFT JOIN `member` AS ACM
+        ON AC.author_id = ACM.id
+        LEFT JOIN article_tag AS ATG
+        ON A.id = ATG.article_id
+        WHERE A.title LIKE '%1%'
+        OR A.body LIKE '%1%'
+        OR AM.username LIKE '%1%'
+        OR AC.body LIKE '%1%'
+        OR ACM.username LIKE '%1%'
+        OR ATG.content = '1'
+        ORDER BY A.id DESC
+        LIMIT 10, 10;
+        */
         BooleanBuilder builder = new BooleanBuilder();
 
+        // 조인할 테이블들
         QMember author = new QMember("articleAuthor");
         QArticleTag articleTag = new QArticleTag("articleTag");
-        QArticleComment comment = new QArticleComment("articleComment");
-        QMember commentAuthor = new QMember("articleCommentAuthor");
+        QArticleComment articleComment = new QArticleComment("articleComment");
+        QMember articleCommentAuthor = new QMember("articleCommentAuthor");
 
         if (!kw.isBlank()) {
             // 기존의 조건을 리스트에 담습니다.
             List<BooleanExpression> conditions = new ArrayList<>();
 
             if (kwTypes.contains("authorUsername")) {
-                // where 조건 입력
+                // containsIgnoreCase 대소문자 구분하지 않는다.
                 conditions.add(author.username.containsIgnoreCase(kw));
             }
 
@@ -58,11 +79,11 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
             }
 
             if (kwTypes.contains("commentAuthorUsername")) {
-                conditions.add(commentAuthor.username.containsIgnoreCase(kw));
+                conditions.add(articleCommentAuthor.username.containsIgnoreCase(kw));
             }
 
             if (kwTypes.contains("commentBody")) {
-                conditions.add(comment.body.containsIgnoreCase(kw));
+                conditions.add(articleComment.body.containsIgnoreCase(kw));
             }
 
             // 조건 리스트를 or 조건으로 결합합니다.
@@ -80,26 +101,46 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
                 .selectDistinct(article)
                 .from(article)
                 .leftJoin(article.author, author)
-                .leftJoin(article.comments, comment)
-                .leftJoin(comment.author, commentAuthor)
+                .leftJoin(article.comments, articleComment)
+                .leftJoin(articleComment.author, articleCommentAuthor)
                 .leftJoin(article.tags, articleTag)
+                // 각 조인들의 on은 생략 JPA가 알아서 해준다.
                 .where(builder);
 
-        // 정렬 조건
         for (Sort.Order o : pageable.getSort()) {
             PathBuilder pathBuilder = new PathBuilder(article.getType(), article.getMetadata());
-            articlesQuery.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC,
-                    pathBuilder.get(o.getProperty())));
+            articlesQuery.orderBy(new OrderSpecifier(o.isAscending() ? Order.ASC : Order.DESC, pathBuilder.get(o.getProperty())));
         }
 
         articlesQuery.offset(pageable.getOffset()).limit(pageable.getPageSize());
 
+        /*
+        # 검색어가 `1` 이라고 가정
+        SELECT COUNT(DISTINCT A.id)
+        FROM article AS A
+        LEFT JOIN `member` AS AM
+        ON A.author_id = AM.id
+        LEFT JOIN article_comment AS AC
+        ON A.id = AC.article_id
+        LEFT JOIN `member` AS ACM
+        ON AC.author_id = ACM.id
+        LEFT JOIN article_tag AS ATG
+        ON A.id = ATG.article_id
+        WHERE A.title LIKE '%1%'
+        OR A.body LIKE '%1%'
+        OR AM.username LIKE '%1%'
+        OR AC.body LIKE '%1%'
+        OR ACM.username LIKE '%1%'
+        OR ATG.content = '1';
+        */
+
+        // 페이지 계산하기 위해서 총 게시물 수 쿼리를 한번 더 보낸다.
         JPAQuery<Long> totalQuery = jpaQueryFactory
-                .selectDistinct(article.countDistinct())
+                .select(article.countDistinct()) // SELECT COUNT(distinct id)
                 .from(article)
                 .leftJoin(article.author, author)
-                .leftJoin(article.comments, comment)
-                .leftJoin(comment.author, commentAuthor)
+                .leftJoin(article.comments, articleComment)
+                .leftJoin(articleComment.author, articleCommentAuthor)
                 .leftJoin(article.tags, articleTag)
                 .where(builder);
 
