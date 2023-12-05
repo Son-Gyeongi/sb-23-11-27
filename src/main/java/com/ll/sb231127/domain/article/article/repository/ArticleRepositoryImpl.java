@@ -98,7 +98,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
         }
 
         JPAQuery<Article> articlesQuery = jpaQueryFactory
-                .selectDistinct(article)
+                .selectDistinct(article) // SELECT Distinct A.*
                 .from(article)
                 .leftJoin(article.author, author)
                 .leftJoin(article.comments, articleComment)
@@ -136,7 +136,7 @@ public class ArticleRepositoryImpl implements ArticleRepositoryCustom {
 
         // 페이지 계산하기 위해서 총 게시물 수 쿼리를 한번 더 보낸다.
         JPAQuery<Long> totalQuery = jpaQueryFactory
-                .select(article.countDistinct()) // SELECT COUNT(distinct id)
+                .select(article.countDistinct()) // SELECT COUNT(distinct A.id)
                 .from(article)
                 .leftJoin(article.author, author)
                 .leftJoin(article.comments, articleComment)

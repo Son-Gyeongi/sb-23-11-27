@@ -73,7 +73,7 @@ public class NotProd {
 
         article4.addTag("자바", "스프링부트");
 
-        IntStream.rangeClosed(5, 10000).forEach(
+        IntStream.rangeClosed(5, 22).forEach(
                 i -> {
                     String title = "제목" + i;
                     String body = "내용" + i;
